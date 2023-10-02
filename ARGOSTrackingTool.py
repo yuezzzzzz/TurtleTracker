@@ -9,6 +9,7 @@
 # Date:   Fall 2023
 #--------------------------------------------------------------
 
+# Task 3: Read the data directly from the ARGOS file
 # Parse Data
 # Copy and paste a line of data as the lineString variable value
 lineString = "20616	29051	7/3/2003 9:13	3	66	33.898	-77.958	27.369	-46.309	6	0	-126	529	3	401 651134.7	0"
@@ -53,3 +54,58 @@ obs_lon = lineData[7]
 
 #Print the location of sara
 print(f"Record {record_id} indicates Sara was seen at lat:{obs_lat},lon:{obs_lon} on {obs_date}")
+
+#Task 4a Process all lines in the ARGOS file using a for loop
+file_name = './data/raw/Sara.txt'
+
+#Create a file object from the file
+file_object = open(file_name,'r')
+
+#Read contents of file into a list
+line_list = file_object.readlines()
+
+#Close the file
+file_object.close()
+
+for lineString in line_list[17:]:
+    lineData = lineString.split()
+    record_id = lineData[0]
+    obs_date = lineData[2]
+    obs_lc = lineData[4]
+    obs_lat = lineData[6]
+    obs_lon = lineData[7]
+    print(f"Record {record_id} indicates Sara was seen at lat:{obs_lat},lon:{obs_lon} on {obs_date}")
+
+for lineString in line_list:
+    #check if the line is a data line
+    if lineString[0] in ('#', 'u'):
+        continue
+    lineData = lineString.split()
+    record_id = lineData[0]
+    obs_date = lineData[2]
+    obs_lc = lineData[4]
+    obs_lat = lineData[6]
+    obs_lon = lineData[7]
+    print(f"Record {record_id} indicates Sara was seen at lat:{obs_lat},lon:{obs_lon} on {obs_date}")
+
+#Task 4b: Process all lines in the ARGOS fiel using a while loop
+#Read contents of file into a list
+lineString = file_object.readline()
+
+#while loop
+##Iterate through lines
+while lineString:
+    if lineString[0] in ('#', 'u'):
+        lineString = file_object.readline()
+        continue
+    lineData = lineString.split()
+    record_id = lineData[0]
+    obs_date = lineData[2]
+    obs_lc = lineData[4]
+    obs_lat = lineData[6]
+    obs_lon = lineData[7]
+    print(f"Record {record_id} indicates Sara was seen at lat:{obs_lat},lon:{obs_lon} on {obs_date}")
+    #Move to the next line
+    lineString = file_object.readline()
+#Close the file
+file_object.close()
