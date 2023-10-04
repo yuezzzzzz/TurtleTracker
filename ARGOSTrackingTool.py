@@ -96,7 +96,7 @@ lineString = file_object.readline()
 ##Iterate through lines
 while lineString:
     if lineString[0] in ('#', 'u'):
-        lineString = file_object.readline()
+        lineString = file_object.readline() # go to the next item in the line string before continue. Otherwise it will stay in the first line
         continue
     lineData = lineString.split()
     record_id = lineData[0]
@@ -109,3 +109,38 @@ while lineString:
     lineString = file_object.readline()
 #Close the file
 file_object.close()
+
+#Task5: Building Python dictionaries of ARGOS observations
+file_name = './data/raw/Sara.txt'
+
+#Create a file object from the file
+file_object = open(file_name,'r')
+
+#Read contents of file into a list
+line_list = file_object.readlines()
+
+#Close the file
+file_object.close()
+
+#Initialize dictionaries
+date_dict = {}
+location_dict = {}
+
+#For loop
+for lineString in line_list:
+    #check if the line is a data line
+    if lineString[0] in ('#', 'u'):
+        continue
+    lineData = lineString.split()
+    record_id = lineData[0]
+    obs_date = lineData[2]
+    obs_lc = lineData[4]
+    obs_lat = lineData[6]
+    obs_lon = lineData[7]
+
+    #Add items to dictionaries
+    date_dict[record_id] = obs_date
+    location_dict[record_id] = (obs_lat, obs_lon)
+    
+    #print the location of sara
+    #print(f"Record {record_id} indicates Sara was seen at lat:{obs_lat},lon:{obs_lon} on {obs_date}")
